@@ -7,9 +7,14 @@
     "start": "node index.js",
     "db": "node runsql.js"
   },
-  "keywords": [],
+  "keywords": [
+    "jwt",
+    "postgraphile",
+    "postgresql",
+    "nodejs"
+  ],
   "author": "Majid Garmaroudi",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.16.4",
     "good-config": "^1.1.0",
