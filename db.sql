@@ -1,27 +1,39 @@
 
 
--- Policies must be removed first
+-- Policies must be removed first as some tables are dependent on them and we cannot drop tables untill we drop policies
 DROP policy IF EXISTS select_user ON test.user;
 DROP policy IF EXISTS update_user ON test.user;
+DROP policy IF EXISTS select_user ON test.user;
+DROP policy IF EXISTS update_user ON test.user;
+DROP policy IF EXISTS select_user_meme ON test.user_meme;
+DROP policy IF EXISTS insert_user_meme ON test.user_meme;
+DROP policy IF EXISTS update_user_meme ON test.user_meme;
+DROP policy IF EXISTS delete_user_meme ON test.user_meme;
+DROP policy IF EXISTS select_uall_ser ON test.user;
 
+
+-- Drop all shcemas
 DROP SCHEMA IF EXISTS test CASCADE;
 DROP SCHEMA IF EXISTS test_private CASCADE;
 DROP SCHEMA IF EXISTS test_public CASCADE;
 
-
+-- Create schemas
 CREATE SCHEMA test;
 CREATE SCHEMA test_private;
 CREATE SCHEMA test_public;
 
+-- Enable crypo for making hash password
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
+-- Create a base user table
 CREATE TABLE test.user (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   family_name VARCHAR(255) NOT NULL
 );
 
-
+-- Create private user info table for password and email
+-- `user` and `user_account` have 1 to 1 relation. We have one row for each user in `user_account` table.
 CREATE TABLE test_private.user_account (
   user_id integer PRIMARY KEY REFERENCES test.user(id) ON DELETE CASCADE,
   email VARCHAR(255),
@@ -29,14 +41,15 @@ CREATE TABLE test_private.user_account (
   UNIQUE(email)
 );
 
-
+-- Create a table that depends on user data
+-- `user` and `user_meme` have one to many relation. We can have many memes for each user.
 CREATE TABLE test.user_meme (
   id SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES test.user(id) ON DELETE CASCADE,
   meme_url TEXT
 );
 
-
+-- User regisration function that inserts in both user and user_account
 CREATE FUNCTION test_public.register(
   first_name text,
   last_name text,
@@ -46,10 +59,12 @@ CREATE FUNCTION test_public.register(
 declare
   new_user test.user;
 begin
+  -- first insert in user table
   insert into test.user (name, family_name) values
     (first_name, last_name)
     returning * into new_user;
 
+  -- use the user id from above insert and isnert a user's private information to user_account table
   insert into test_private.user_account (user_id, email, password) values
     (new_user.id, email, crypt(password, gen_salt('bf')));
 
@@ -65,7 +80,7 @@ RETURNS integer AS $$
 $$ LANGUAGE sql STABLE;
 
 
--- test is user that we login to postgres with (super user)
+-- `test` is a user that we login to postgres with (super user)
 -- Create Admin role
 DROP ROLE IF EXISTS user_admin;
 CREATE ROLE user_admin;
@@ -82,7 +97,7 @@ CREATE ROLE user_guest;
 GRANT user_guest to test, user_login;
 
 
--- Enable row level security
+-- Enable row level security for each table
 ALTER TABLE test.user enable row level security;
 ALTER TABLE test_private.user_account enable row level security;
 ALTER TABLE test.user_meme enable row level security;
@@ -111,8 +126,8 @@ CREATE POLICY delete_user_meme ON test.user_meme FOR DELETE TO user_login USING 
 CREATE POLICY select_uall_ser on test.user for ALL TO user_admin USING (true); -- Give access to all user data to admin
 
 -- Adding user passwords
-SELECT test_public.register('Majid', 'Garmaroudi', 'majid.sadeghi@gmail.com', 'majid');
-SELECT test_public.register('John', 'Zoidberg', 'johan@zoidberg.com', 'zoidberg');
+SELECT test_public.register('Majid', 'Garmaroudi', 'majid.sadeghi@gmail.com', 'supremeleader');
+SELECT test_public.register('Paul', 'Rolland', 'paul.rolland@epitech.eu', 'frenchtoast');
 
 
 -- Adding user's memes

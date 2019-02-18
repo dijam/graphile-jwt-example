@@ -39,14 +39,14 @@ config
           "line",
           "routine"
         ],
-        jwtSecret: configData.auth.secret,
+        jwtSecret: configData.auth.secret, // sharing the same secret we make our jwt with Postgraphile
         jwtVerifyOptions: {
           audience: null
         }
       })
     );
-    app.listen(configData.app.port);
 
+    // A fictional route that generates different jwt tokens for different roles so you can use for testing different fetch from graphhql
     app.get("/login", (req, res, next) => {
       res.json({
         1: jwt.sign(
@@ -72,6 +72,7 @@ config
       });
     });
 
+    app.listen(configData.app.port);
     console.log(`App is running on ${configData.app.port}`);
   })
   .catch(err => {

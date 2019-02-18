@@ -1,13 +1,14 @@
 {
   "name": "graphileauth",
   "version": "1.0.0",
-  "description": "",
+  "description": "Postgraphile jwt token implementation",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "db": "node runsql.js"
   },
   "keywords": [],
-  "author": "Dijam",
+  "author": "Majid Garmaroudi",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
