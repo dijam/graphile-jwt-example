@@ -1,5 +1,3 @@
-
-
 -- Policies must be removed first as some tables are dependent on them and we cannot drop tables untill we drop policies
 DROP policy IF EXISTS select_user ON test.user;
 DROP policy IF EXISTS update_user ON test.user;
@@ -10,7 +8,6 @@ DROP policy IF EXISTS insert_user_meme ON test.user_meme;
 DROP policy IF EXISTS update_user_meme ON test.user_meme;
 DROP policy IF EXISTS delete_user_meme ON test.user_meme;
 DROP policy IF EXISTS select_uall_ser ON test.user;
-
 
 -- Drop all shcemas
 DROP SCHEMA IF EXISTS test CASCADE;
@@ -80,21 +77,21 @@ RETURNS integer AS $$
 $$ LANGUAGE sql STABLE;
 
 
--- `test` is a user that we login to postgres with (super user)
+-- `postgres` is a user that we login to postgres with (super user)
 -- Create Admin role
 DROP ROLE IF EXISTS user_admin;
 CREATE ROLE user_admin;
-GRANT user_admin to test;
+GRANT user_admin to postgres;
 
 -- Create user login role
 DROP ROLE IF EXISTS user_login;
 CREATE ROLE user_login;
-GRANT user_login to test, user_admin;
+GRANT user_login to postgres, user_admin;
 
 -- Create user guest role
 DROP ROLE IF EXISTS user_guest;
 CREATE ROLE user_guest;
-GRANT user_guest to test, user_login;
+GRANT user_guest to postgres, user_login;
 
 
 -- Enable row level security for each table
