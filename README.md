@@ -51,10 +51,11 @@ First, visit `http://localhost:3131/login` to get back JWT's associated to the u
 }
 ```
 
-JWT contains in its payload the id and the role of the associated user.
+JWT payload contains id and role of the associated user.
 
 
 ### Basic user information request
+
 With the JWT associated to user `1`, we can test if user with id `1` can see all data it is supposed to:
 
 ```
@@ -65,7 +66,7 @@ curl --request POST \
   --data '{"query":"{\n  allUsers {\n    nodes {\n      id\n      name\n      familyName\n    }\n  }\n}"}'
 ```
 
-We are requesting all users but we would get only user `1` informations as a result:
+We are requesting all users but we would get only user `1` information as a result:
 
 ```
  {
@@ -110,9 +111,7 @@ Repeat the same with the token associated to the admin `admin`, you should see a
 
 So far, we tested 2 different roles for a same query with 3 different results.
 
-
-You can aswell register a new user without have any access which means, you do not need any JWT when you call graphQL:
-
+Anonymous users do not have any particular access but we allowed them to have access to register function:
 ```
 curl --request POST \
   --url http://localhost:3131/graphql \
@@ -170,7 +169,7 @@ This will return all memes no matter what JWT we use.
 }
 ```
 
-But if we try to update meme number `1` with user id `2` jwt, it would fail:
+But if we try to update meme number `1` with user id `2` JWT, it would fail:
 
 ```
 curl --request POST \
