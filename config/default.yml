@@ -2,9 +2,9 @@ app:
   port: 3131
 
 db:
-  database: majid
+  database: jwt-graphile-example
   host: localhost
-  user: test
+  user: postgres
   password:
   port: 5432
 
