@@ -52,7 +52,7 @@ JWT contains in its payload the id and the role of the associated user.
 
 
 ### Basic user information request
-With the JWT associated to userId `1`, we can test if user with id `1` can see all data it is supposed to:
+With the JWT associated to user `1`, we can test if user with id `1` can see all data it is supposed to:
 
 ```
 curl --request POST \
@@ -62,7 +62,7 @@ curl --request POST \
   --data '{"query":"{\n  allUsers {\n    nodes {\n      id\n      name\n      familyName\n    }\n  }\n}"}'
 ```
 
-We are requesting all users but we would get only user id `1` as results:
+We are requesting all users but we would get only user `1` informations as a result:
 
 ```
  {
@@ -80,9 +80,9 @@ We are requesting all users but we would get only user id `1` as results:
 }
 ```
 
-Repeat the same with the token associated to user id `2`, you will get only data related to user id `2`.
+Repeat the same with the token associated to user `2`, you will get only data related to user `2`.
 
-Repeat the same with the token associated to the admin: `admin`, you should see as a result:
+Repeat the same with the token associated to the admin `admin`, you should see as a result:
 
 ```
  {
@@ -108,7 +108,7 @@ Repeat the same with the token associated to the admin: `admin`, you should see 
 So far, we tested 2 different roles for a same query with 3 different results.
 
 
-You can aswell register a new user without have any access which means, you do not need any JWT when you call graphql:
+You can aswell register a new user without have any access which means, you do not need any JWT when you call graphQL:
 
 ```
 curl --request POST \
