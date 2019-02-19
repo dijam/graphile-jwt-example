@@ -36,7 +36,7 @@ You can check `db.sql` file to know the sql structure.
 ## Testing authentication
 
 ### Required data - JWT
-First, visit `http://localhost:3131/login` to get back the JWT associated to the users:
+First, visit `http://localhost:3131/login` to get back JWT's associated to the users:
 
 ```
 // {userId: "JWT"}
