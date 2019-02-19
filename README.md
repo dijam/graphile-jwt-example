@@ -111,7 +111,7 @@ Repeat the same with the token associated to the admin `admin`, you should see a
 
 So far, we tested 2 different roles for a same query with 3 different results.
 
-Anonymous users do not have any particular access but we allowed them to have access to register function:
+Moreover, we allowed anonymous users to have access to register_user function:
 ```
 curl --request POST \
   --url http://localhost:3131/graphql \
