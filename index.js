@@ -20,6 +20,7 @@ config
       postgraphile(configData.db, configData.graphile.schemas, {
         pgDefaultRole: "user_login",
         graphiql: true,
+        enhanceGraphiql: true,
         showErrorStack: true,
         extendedErrors: [
           "severity",
