@@ -103,7 +103,7 @@ GRANT SELECT, UPDATE(name, family_name) ON TABLE test.user TO user_login;
 GRANT SELECT, DELETE, INSERT(meme_url), UPDATE(meme_url) ON TABLE test.user_meme TO user_login;
 GRANT ALL ON TABLE test.user TO user_admin;
 GRANT ALL ON TABLE test_private.user_account TO user_admin;
-GRANT EXECUTE ON FUNCTION test_public.register(text, text, text, text) to user_guest; -- For function this is sufficient and no need for policy
+GRANT EXECUTE ON FUNCTION test_public.register(text, text, citext, text) to user_guest; -- For function this is sufficient and no need for policy
 
 -- Table policies for RLS
 CREATE POLICY select_user ON test.user FOR SELECT TO user_login USING (id = test_public.get_user_id());
