@@ -19,6 +19,7 @@ config
     app.use(
       postgraphile(configData.db, configData.graphile.schemas, {
         pgDefaultRole: "user_login",
+        ignoreRBAC: false, // Reflect the GRANTs in the generated GraphQL schema
         graphiql: true,
         showErrorStack: true,
         extendedErrors: [
